@@ -1,0 +1,10 @@
+{
+  "name": "betintel",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "echo done"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
