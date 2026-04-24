@@ -11,8 +11,7 @@
 body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;min-height:100vh}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.025) 1px,transparent 1px);background-size:36px 36px;pointer-events:none;z-index:0}
 header{position:sticky;top:0;z-index:100;background:rgba(8,12,16,0.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--accent);text-shadow:0 0 18px rgba(0,229,255,0.4)}
-.logo span{color:#fff}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:4px;color:var(--accent);text-shadow:0 0 18px rgba(0,229,255,0.4)}.logo span{color:#fff}
 .header-right{display:flex;align-items:center;gap:12px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
 .live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 7px var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
@@ -25,12 +24,11 @@ main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:24px 16px
 .banner-sub{font-size:11px;color:var(--muted);line-height:1.5}
 .tabs{display:flex;gap:4px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:4px;margin-bottom:24px}
 .tab{flex:1;padding:10px 6px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;letter-spacing:1px;cursor:pointer;transition:all 0.2s;text-transform:uppercase}
-.tab.active{background:var(--card);color:var(--accent);border-color:var(--border);box-shadow:0 0 10px rgba(0,229,255,0.08)}
+.tab.active{background:var(--card);color:var(--accent);border-color:var(--border)}
 .tab-content{display:none}.tab-content.active{display:block}
 .sec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .sec-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:#fff}
 .refresh-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:10px;cursor:pointer;transition:all 0.2s}
-.refresh-btn:hover{background:rgba(0,229,255,0.07);border-color:var(--accent)}
 .refresh-btn:disabled{opacity:0.35;cursor:not-allowed}
 .summary-strip{display:flex;gap:10px;margin-bottom:24px}
 .summary-pill{flex:1;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
@@ -39,7 +37,6 @@ main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:24px 16px
 .sum-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
 .games-grid{display:flex;flex-direction:column;gap:10px}
 .game-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;position:relative;overflow:hidden;animation:fadeUp 0.4s ease both;transition:border-color 0.2s,transform 0.2s}
-.game-card:hover{transform:translateX(2px);border-color:rgba(0,229,255,0.25)}
 .game-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--border)}
 .game-card.safe::before{background:var(--green);box-shadow:0 0 7px var(--green)}
 .game-card.medium::before{background:var(--yellow);box-shadow:0 0 7px var(--yellow)}
@@ -53,7 +50,7 @@ main{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:24px 16px
 .team-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px}
 .vs{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--muted);letter-spacing:2px}
 .odds-row{display:flex;gap:6px;margin-bottom:14px}
-.odd-box{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:9px;text-align:center;transition:all 0.2s}
+.odd-box{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:9px;text-align:center}
 .odd-box.predicted{border-color:var(--accent);background:rgba(0,229,255,0.05)}
 .odd-label{font-family:'IBM Plex Mono',monospace;font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:3px;text-transform:uppercase}
 .odd-value{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--text)}
@@ -87,80 +84,10 @@ footer{text-align:center;padding:20px;font-family:'IBM Plex Mono',monospace;font
 <div class="header-right"><div class="live-dot"></div><span id="clock">--:--</span><span>·</span><span>KI-POWERED</span></div>
 </header>
 <main>
-<div class="banner"><div class="banner-icon">🎯</div><div><div class="banner-title">SAFE BET SCANNER</div><div class="banner-sub">Echte Wettquoten + Claude KI-Analyse · Nur zur Unterhaltung · 18+</div></div></div>
+<div class="banner"><div class="banner-icon">🎯</div><div><div class="banner-title">SAFE BET SCANNER</div><div class="banner-sub">Echte Wettquoten + KI-Analyse · Nur zur Unterhaltung · 18+</div></div></div>
 <div class="tabs">
 <button class="tab active" onclick="switchTab('nba')">🏀 NBA</button>
 <button class="tab" onclick="switchTab('bundesliga')">⚽ Bundesliga</button>
 <button class="tab" onclick="switchTab('dfb')">🏆 DFB-Pokal</button>
 </div>
-<div id="tab-nba" class="tab-content active">
-<div class="sec-header"><div class="sec-title">🏀 NBA</div><button class="refresh-btn" id="btn-nba" onclick="loadLeague('nba')">↻ Neu laden</button></div>
-<div class="summary-strip"><div class="summary-pill"><span class="sum-num safe" id="nba-safe">–</span><span class="sum-lbl">Safe Bets</span></div><div class="summary-pill"><span class="sum-num med" id="nba-med">–</span><span class="sum-lbl">Mittel</span></div><div class="summary-pill"><span class="sum-num risky" id="nba-risky">–</span><span class="sum-lbl">Riskant</span></div></div>
-<div class="games-grid" id="games-nba"></div>
-</div>
-<div id="tab-bundesliga" class="tab-content">
-<div class="sec-header"><div class="sec-title">⚽ Bundesliga</div><button class="refresh-btn" id="btn-bundesliga" onclick="loadLeague('bundesliga')">↻ Neu laden</button></div>
-<div class="summary-strip"><div class="summary-pill"><span class="sum-num safe" id="bundesliga-safe">–</span><span class="sum-lbl">Safe Bets</span></div><div class="summary-pill"><span class="sum-num med" id="bundesliga-med">–</span><span class="sum-lbl">Mittel</span></div><div class="summary-pill"><span class="sum-num risky" id="bundesliga-risky">–</span><span class="sum-lbl">Riskant</span></div></div>
-<div class="games-grid" id="games-bundesliga"></div>
-</div>
-<div id="tab-dfb" class="tab-content">
-<div class="sec-header"><div class="sec-title">🏆 DFB-Pokal</div><button class="refresh-btn" id="btn-dfb" onclick="loadLeague('dfb')">↻ Neu laden</button></div>
-<div class="summary-strip"><div class="summary-pill"><span class="sum-num safe" id="dfb-safe">–</span><span class="sum-lbl">Safe Bets</span></div><div class="summary-pill"><span class="sum-num med" id="dfb-med">–</span><span class="sum-lbl">Mittel</span></div><div class="summary-pill"><span class="sum-num risky" id="dfb-risky">–</span><span class="sum-lbl">Riskant</span></div></div>
-<div class="games-grid" id="games-dfb"></div>
-</div>
-</main>
-<footer>⚠ BetIntel · KI-Analysetool · Keine Gewinngarantie · 18+</footer>
-<script>
-const SPORT_KEYS={nba:'basketball_nba',bundesliga:'soccer_germany_bundesliga',dfb:'soccer_germany_cup'};
-const SPORT_LABELS={nba:'NBA',bundesliga:'Bundesliga',dfb:'DFB-Pokal'};
-const loaded={};
-setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},1000);
-function switchTab(tab){document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['nba','bundesliga','dfb'][i]===tab));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');if(!loaded[tab])loadLeague(tab)}
-function setLoading(id,msg,sub){document.getElementById('games-'+id).innerHTML=`<div class="loading-card"><div class="spinner"></div><div class="loading-t">${msg}</div>${sub?`<div class="loading-s">${sub}</div>`:''}</div>`}
-function setError(id,msg){document.getElementById('games-'+id).innerHTML=`<div class="error-box">❌ ${msg}</div>`}
-function renderGames(id,games,preds){
-const label=SPORT_LABELS[id];let safe=0,med=0,risky=0;
-if(!games.length){document.getElementById('games-'+id).innerHTML='<div class="empty">Keine Spiele aktuell verfügbar.</div>';return}
-const html=games.map((g,i)=>{
-const p=preds[i]||{};const risk=p.risk||'medium';const conf=p.confidence||60;const pred=p.prediction||'';
-if(risk==='safe')safe++;else if(risk==='medium')med++;else risky++;
-const outcomes=g.bookmakers?.[0]?.markets?.[0]?.outcomes||[];
-const ho=outcomes.find(o=>o.name===g.home_team)?.price?.toFixed(2)||'–';
-const ao=outcomes.find(o=>o.name===g.away_team)?.price?.toFixed(2)||'–';
-const dr=outcomes.find(o=>o.name==='Draw')?.price?.toFixed(2)||null;
-const date=new Date(g.commence_time);
-const ds=date.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'});
-const ts=date.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
-const icon=risk==='safe'?'✅':risk==='medium'?'⚡':'⚠️';
-return `<div class="game-card ${risk}" style="animation-delay:${i*0.07}s">
-<div class="game-header"><span class="game-league">${label}</span><span class="game-date">${ds} · ${ts} Uhr</span></div>
-<div class="matchup"><div class="team"><div class="team-name">${g.home_team}</div><div class="team-sub">HEIMSPIEL</div></div><div class="vs">VS</div><div class="team"><div class="team-name">${g.away_team}</div><div class="team-sub">AUSWÄRTS</div></div></div>
-<div class="odds-row"><div class="odd-box ${pred==='HOME'?'predicted':''}"><div class="odd-label">Heim</div><div class="odd-value">${ho}</div></div>${dr?`<div class="odd-box ${pred==='DRAW'?'predicted':''}"><div class="odd-label">Unentsch.</div><div class="odd-value">${dr}</div></div>`:''}<div class="odd-box ${pred==='AWAY'?'predicted':''}"><div class="odd-label">Gast</div><div class="odd-value">${ao}</div></div></div>
-<div class="ai-box"><div class="ai-top"><span class="ai-lbl">⚡ KI-ANALYSE</span><span class="badge ${risk}">${icon} ${conf}%</span></div><div class="bar-bg"><div class="bar-fill ${risk}" style="width:${conf}%"></div></div><div class="ai-reason">${p.reasoning||'Keine Analyse'}</div>${p.bet_tip?`<div class="bet-tip"><span>${icon}</span><strong>Tipp:</strong> ${p.bet_tip}</div>`:''}</div>
-</div>`}).join('');
-document.getElementById('games-'+id).innerHTML=html;
-document.getElementById(id+'-safe').textContent=safe;
-document.getElementById(id+'-med').textContent=med;
-document.getElementById(id+'-risky').textContent=risky;
-}
-async function loadLeague(id){
-const btn=document.getElementById('btn-'+id);btn.disabled=true;
-setLoading(id,'LADE WETTQUOTEN...','Verbinde mit The Odds API');
-try{
-const or=await fetch(`/api/odds?sport=${SPORT_KEYS[id]}`);
-const games=await or.json();
-if(!or.ok)throw new Error(games.error||'Odds API Fehler');
-if(!games.length){document.getElementById('games-'+id).innerHTML='<div class="empty">Keine Spiele aktuell verfügbar.</div>';btn.disabled=false;return}
-setLoading(id,`KI ANALYSIERT ${games.length} SPIELE...`,'Claude berechnet Vorhersagen');
-let preds=[];
-try{
-const ar=await fetch('/api/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({games:games.slice(0,8),leagueLabel:SPORT_LABELS[id]})});
-const ad=await ar.json();preds=ad.predictions||[];
-}catch(e){console.warn('AI failed:',e)}
-renderGames(id,games.slice(0,8),preds);loaded[id]=true;
-}catch(err){setError(id,err.message)}finally{btn.disabled=false}
-}
-loadLeague('nba');
-</script>
-</body>
-</html>
+<div id​​​​​​​​​​​​​​​​
