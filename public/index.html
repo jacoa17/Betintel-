@@ -90,4 +90,94 @@ footer{text-align:center;padding:20px;font-family:'IBM Plex Mono',monospace;font
 <button class="tab" onclick="switchTab('bundesliga')">⚽ Bundesliga</button>
 <button class="tab" onclick="switchTab('dfb')">🏆 DFB-Pokal</button>
 </div>
-<div id​​​​​​​​​​​​​​​​
+<div id="tab-nba" class="tab-content active">
+<div class="sec-header"><div class="sec-title">🏀 NBA</div><button class="refresh-btn" id="btn-nba" onclick="loadLeague('nba')">↻ Neu laden</button></div>
+<div class="summary-strip"><div class="summary-pill"><span class="sum-num safe" id="nba-safe">–</span><span class="sum-lbl">Safe Bets</span></div><div class="summary-pill"><span class="sum-num med" id="nba-med">–</span><span class="sum-lbl">Mittel</span></div><div class="summary-pill"><span class="sum-num risky" id="nba-risky">–</span><span class="sum-lbl">Riskant</span></div></div>
+<div class="games-grid" id="games-nba"></div>
+</div>
+<div id="tab-bundesliga" class="tab-content">
+<div class="sec-header"><div class="sec-title">⚽ Bundesliga</div><button class="refresh-btn" id="btn-bundesliga" onclick="loadLeague('bundesliga')">↻ Neu laden</button></div>
+<div class="summary-strip"><div class="summary-pill"><span class="sum-num safe" id="bundesliga-safe">–</span><span class="sum-lbl">Safe Bets</span></div><div class="summary-pill"><span class="sum-num med" id="bundesliga-med">–</span><span class="sum-lbl">Mittel</span></div><div class="summary-pill"><span class="sum-num risky" id="bundesliga-risky">–</span><span class="sum-lbl">Riskant</span></div></div>
+<div class="games-grid" id="games-bundesliga"></div>
+</div>
+<div id="tab-dfb" class="tab-content">
+<div class="sec-header"><div class="sec-title">🏆 DFB-Pokal</div><button class="refresh-btn" id="btn-dfb" onclick="loadLeague('dfb')">↻ Neu laden</button></div>
+<div class="summary-strip"><div class="summary-pill"><span class="sum-num safe" id="dfb-safe">–</span><span class="sum-lbl">Safe Bets</span></div><div class="summary-pill"><span class="sum-num med" id="dfb-med">–</span><span class="sum-lbl">Mittel</span></div><div class="summary-pill"><span class="sum-num risky" id="dfb-risky">–</span><span class="sum-lbl">Riskant</span></div></div>
+<div class="games-grid" id="games-dfb"></div>
+</div>
+</main>
+<footer>⚠ BetIntel · KI-Analysetool · Keine Gewinngarantie · 18+</footer>
+<script>
+const SPORT_KEYS={nba:'basketball_nba',bundesliga:'soccer_germany_bundesliga',dfb:'soccer_germany_cup'};
+const SPORT_LABELS={nba:'NBA',bundesliga:'Bundesliga',dfb:'DFB-Pokal'};
+const loaded={};
+setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})},1000);
+function switchTab(tab){document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['nba','bundesliga','dfb'][i]===tab));document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');if(!loaded[tab])loadLeague(tab)}
+function setLoading(id,msg,sub){document.getElementById('games-'+id).innerHTML=`<div class="loading-card"><div class="spinner"></div><div class="loading-t">${msg}</div>${sub?`<div class="loading-s">${sub}</div>`:''}</div>`}
+function renderGames(id,games,preds){
+const label=SPORT_LABELS[id];let safe=0,med=0,risky=0;
+if(!games.length){document.getElementById('games-'+id).innerHTML='<div class="empty">Keine Spiele verfügbar.</div>';return}
+const html=games.map((g,i)=>{
+const p=preds[i]||{};const risk=p.risk||'medium';const conf=p.confidence||60;const pred=p.prediction||'';
+if(risk==='safe')safe++;else if(risk==='medium')med++;else risky++;
+const outcomes=g.bookmakers?.[0]?.markets?.[0]?.outcomes||[];
+const ho=outcomes.find(o=>o.name===g.home_team)?.price?.toFixed(2)||'–';
+const ao=outcomes.find(o=>o.name===g.away_team)?.price?.toFixed(2)||'–';
+const dr=outcomes.find(o=>o.name==='Draw')?.price?.toFixed(2)||null;
+const date=new Date(g.commence_time);
+const ds=date.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'});
+const ts=date.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+const icon=risk==='safe'?'✅':risk==='medium'?'⚡':'⚠️';
+return `<div class="game-card ${risk}" style="animation-delay:${i*0.07}s">
+<div class="game-header"><span class="game-league">${label}</span><span class="game-date">${ds} · ${ts} Uhr</span></div>
+<div class="matchup"><div class="team"><div class="team-name">${g.home_team}</div><div class="team-sub">HEIMSPIEL</div></div><div class="vs">VS</div><div class="team"><div class="team-name">${g.away_team}</div><div class="team-sub">AUSWÄRTS</div></div></div>
+<div class="odds-row">
+<div class="odd-box ${pred==='HOME'?'predicted':''}"><div class="odd-label">Heim</div><div class="odd-value">${ho}</div></div>
+${dr?`<div class="odd-box ${pred==='DRAW'?'predicted':''}"><div class="odd-label">Unentsch.</div><div class="odd-value">${dr}</div></div>`:''}
+<div class="odd-box ${pred==='AWAY'?'predicted':''}"><div class="odd-label">Gast</div><div class="odd-value">${ao}</div></div>
+</div>
+<div class="ai-box"><div class="ai-top"><span class="ai-lbl">⚡ KI-ANALYSE</span><span class="badge ${risk}">${icon} ${conf}%</span></div><div class="bar-bg"><div class="bar-fill ${risk}" style="width:${conf}%"></div></div><div class="ai-reason">${p.reasoning||'Keine Analyse'}</div>${p.bet_tip?`<div class="bet-tip"><span>${icon}</span><strong>Tipp:</strong> ${p.bet_tip}</div>`:''}</div>
+</div>`}).join('');
+document.getElementById('games-'+id).innerHTML=html;
+document.getElementById(id+'-safe').textContent=safe;
+document.getElementById(id+'-med').textContent=med;
+document.getElementById(id+'-risky').textContent=risky;
+}
+async function loadLeague(id){
+const btn=document.getElementById('btn-'+id);
+btn.disabled=true;
+setLoading(id,'LADE WETTQUOTEN...','Verbinde mit The Odds API');
+try{
+const or=await fetch(`/api/odds?sport=${SPORT_KEYS[id]}`);
+const games=await or.json();
+if(!or.ok)throw new Error(games.error||'Odds API Fehler');
+if(!games.length){document.getElementById('games-'+id).innerHTML='<div class="empty">Keine Spiele verfügbar.</div>';btn.disabled=false;return}
+const slim=games.slice(0,6).map(g=>({
+id:g.id,
+home_team:g.home_team,
+away_team:g.away_team,
+commence_time:g.commence_time,
+bookmakers:[{markets:[{outcomes:g.bookmakers?.[0]?.markets?.[0]?.outcomes||[]}]}]
+}));
+setLoading(id,`KI ANALYSIERT ${slim.length} SPIELE...`,'Gemini berechnet Vorhersagen');
+let preds=[];
+try{
+const ar=await fetch('/api/predict',{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({games:slim,leagueLabel:SPORT_LABELS[id]})
+});
+const ad=await ar.json();
+if(ad.predictions)preds=ad.predictions;
+else console.warn('No predictions:',ad);
+}catch(e){console.warn('AI failed:',e)}
+renderGames(id,games.slice(0,6),preds);
+loaded[id]=true;
+}catch(err){
+document.getElementById('games-'+id).innerHTML=`<div class="error-box">❌ ${err.message}</div>`;
+}finally{btn.disabled=false}
+}
+loadLeague('nba');
+</script>
+</body>
+</html>
